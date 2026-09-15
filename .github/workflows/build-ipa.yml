@@ -26,7 +26,7 @@ jobs:
           set +e
           make ipa > ../out.log 2>&1
           c=$?
-          tail -c 900 ../out.log | tr '\n' '|' | sed 's/[^ -~]//g' > ../err.txt
+          grep -h "error:" ../out.log | head -8 | tr '\n' '|' | sed 's/[^ -~]//g' > ../err.txt
           echo "::error file=Makefile,title=build exit=$c::$(cat ../err.txt)"
           exit $c
 

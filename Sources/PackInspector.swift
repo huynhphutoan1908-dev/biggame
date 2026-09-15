@@ -51,7 +51,7 @@ func inspectPack(_ data: Data) throws -> PackInfo {
         throw PackError.decrypt("thieu publicContentKey/encryptedPayload")
     }
     if let fp = env["keyFingerprint"] as? Data {
-        info.fingerprintOK = (SHA256.hash(data: ck) == fp)
+        info.fingerprintOK = (Data(SHA256.hash(data: ck)) == fp)
     }
     guard !info.passwordProtected else {
         throw PackError.decrypt("pack co bao ve mat khau")
@@ -85,10 +85,11 @@ func inspectPack(_ data: Data) throws -> PackInfo {
                     info.digestCount = dig.count
                 }
                 // internStrings table inside Assembly-CSharp-patch.bytes
-                if let patch = rules.first(where: {
+                if let patchAny = rules.first(where: {
                         ($0["replacementFilename"] as? String ?? "")
                             == "Assembly-CSharp-patch.bytes" })?["replacementData"],
-                   let table = extractInternStrings(Array(patch)) {
+                   let patchData = patchAny as? Data,
+                   let table = extractInternStrings([UInt8](patchData)) {
                     info.internStrings = table
                 }
             }

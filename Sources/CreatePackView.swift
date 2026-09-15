@@ -44,33 +44,37 @@ struct CreatePackView: View {
                 }
 
                 Section("Xuat file") {
-                    Button {
-                        build()
-                    } label: {
-                        Text("Tao goi .3105")
-                            .frame(maxWidth: .infinity)
-                            .fontWeight(.semibold)
-                    }
-                    .disabled(rules.isEmpty)
-
-                    if let url = exportedURL {
-                        ShareLink(item: url,
-                                  preview: ShareLink("Goi .3105", url)) {
-                            Label("Chia se / luu \(url.lastPathComponent)",
-                                  systemImage: "square.and.arrow.up")
-                                .frame(maxWidth: .infinity)
-                        }
-                    }
-                    if let s = status {
-                        Text(s).font(.footnote)
-                            .foregroundStyle(s.hasPrefix("Lỗi") ? .red : .green)
-                    }
+                    outputRows
                 }
             }
             .navigationTitle("hi · Tao goi")
             .fileImporter(isPresented: $showingPicker,
                           allowedContentTypes: [.data, .item],
                           allowsMultipleSelection: true) { handleFiles($0) }
+        }
+    }
+
+    @ViewBuilder private var outputRows: some View {
+        Button {
+            build()
+        } label: {
+            Text("Tao goi .3105")
+                .frame(maxWidth: .infinity)
+                .fontWeight(.semibold)
+        }
+        .disabled(rules.isEmpty)
+
+        if let url = exportedURL {
+            ShareLink(item: url,
+                      preview: ShareLink("Goi .3105", url)) {
+                Label("Chia se / luu \(url.lastPathComponent)",
+                      systemImage: "square.and.arrow.up")
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        if let s = status {
+            Text(s).font(.footnote)
+                .foregroundStyle(s.hasPrefix("Lỗi") ? .red : .green)
         }
     }
 

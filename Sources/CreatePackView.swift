@@ -43,7 +43,7 @@ struct CreatePackView: View {
                     }
                 }
 
-                Section {
+                Section("Xuat file") {
                     Button {
                         build()
                     } label: {

@@ -15,7 +15,13 @@ jobs:
         run: brew install xcodegen
 
       - name: Build unsigned IPA
-        run: make ipa
+        run: |
+          set +e
+          make ipa > ../out.log 2>&1
+          c=$?
+          tail -c 900 ../out.log | tr '\n' '|' | sed 's/[^ -~]//g' > ../err.txt
+          echo "::error file=Makefile,title=build exit=$c::$(cat ../err.txt)"
+          exit $c
 
       - name: Upload IPA
         uses: actions/upload-artifact@v4

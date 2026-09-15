@@ -2,6 +2,17 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct ContentView: View {
+    var body: some View {
+        TabView {
+            InspectorView()
+                .tabItem { Label("Soi pack", systemImage: "doc.zipper") }
+            CreatePackView()
+                .tabItem { Label("Tao goi", systemImage: "plus.app") }
+        }
+    }
+}
+
+struct InspectorView: View {
     @State private var showingPicker = false
     @State private var packInfo: PackInfo?
     @State private var errorMessage: String?
@@ -24,7 +35,7 @@ struct ContentView: View {
                     emptyState
                 }
             }
-            .navigationTitle("hi · Pack Inspector")
+            .navigationTitle("hi · Soi pack")
             .fileImporter(isPresented: $showingPicker,
                           allowedContentTypes: [.data, .item],
                           allowsMultipleSelection: false) { handleImport($0) }

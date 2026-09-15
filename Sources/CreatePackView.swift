@@ -65,8 +65,7 @@ struct CreatePackView: View {
         .disabled(rules.isEmpty)
 
         if let url = exportedURL {
-            ShareLink(item: url,
-                      preview: ShareLink("Goi .3105", url)) {
+            ShareLink(item: url) {
                 Label("Chia se / luu \(url.lastPathComponent)",
                       systemImage: "square.and.arrow.up")
                     .frame(maxWidth: .infinity)
